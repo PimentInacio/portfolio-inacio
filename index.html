@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inácio Pimenta - Desenvolvedor Frontend</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide-react@0.292.0/dist/lucide-react.js"></script>
     
     <style>
         body {
@@ -23,12 +18,6 @@
             color: #cdd6f4;
             overflow-x: hidden;
         }
-        .glass-effect {
-            background: rgba(26, 34, 53, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(205, 214, 244, 0.1);
-        }
         .text-gradient {
             background: linear-gradient(90deg, #89b4fa, #b4befe);
             -webkit-background-clip: text;
@@ -36,545 +25,54 @@
             background-clip: text;
             text-fill-color: transparent;
         }
-        .skill-icon {
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-        .skill-icon:hover {
-            transform: translateY(-5px) scale(1.05);
-            filter: drop-shadow(0 0 8px rgba(137, 180, 250, 0.5));
-        }
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Efeitos da linha azul na navegação (corrigido) */
-        nav a::after {
+        .nav-link::after {
             content: '';
             display: block;
             width: 0;
             height: 2px;
             background: #38BDF8;
-            transition: width .3s ease-in-out;
-            position: absolute;
-            bottom: -5px;
-            left: 0;
+            transition: width .3s;
         }
-        nav a:hover::after, nav a.active-link::after {
+        .nav-link:hover::after, .active-link::after {
             width: 100%;
         }
-        /* Animação do cursor de digitação */
         .blinking-cursor {
             font-weight: 600;
-            font-size: inherit;
-            color: #89b4fa; /* Garante que o cursor seja visível */
+            color: #89b4fa;
             animation: blink 1s step-end infinite;
         }
         @keyframes blink {
             from, to { color: transparent }
             50% { color: #89b4fa; }
         }
-        .modal-overlay {
-            transition: opacity 0.3s ease-in-out;
-        }
-        .modal-content {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
         .photo-gradient-border {
             background: linear-gradient(to right, #89b4fa, #b4befe);
             padding: 4px;
         }
+        .skill-card {
+            background-color: #161e2d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-bottom-color: #89b4fa;
+        }
     </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.546.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body class="antialiased">
-
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-bold text-gradient">Inácio.dev</a>
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#sobre" class="text-slate-300 hover:text-white relative">Sobre</a>
-                <a href="#habilidades" class="text-slate-300 hover:text-white relative">Habilidades</a>
-                <a href="#projetos" class="text-slate-300 hover:text-white relative">Projetos</a>
-                <a href="#contato" class="text-slate-300 hover:text-white relative">Contato</a>
-            </nav>
-            <button id="mobile-menu-button" class="md:hidden text-white">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-slate-800">
-            <a href="#sobre" class="block text-slate-300 hover:text-white px-6 py-3">Sobre</a>
-            <a href="#habilidades" class="block text-slate-300 hover:text-white px-6 py-3">Habilidades</a>
-            <a href="#projetos" class="block text-slate-300 hover:text-white px-6 py-3">Projetos</a>
-            <a href="#contato" class="block text-slate-300 hover:text-white px-6 py-3">Contato</a>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-6 pt-24">
-
-        <!-- Seção Home / Apresentação -->
-        <section id="home" class="min-h-screen flex flex-col justify-center items-start text-left">
-            <div class="max-w-3xl">
-                <p class="text-xl md:text-2xl text-slate-300 mb-2">Olá, eu sou o</p>
-                <h1 class="text-5xl md:text-7xl font-bold text-gradient min-h-[80px] md:min-h-[100px]" id="typing-name"></h1>
-                
-                <div id="reveal-after-typing" class="opacity-0 transition-opacity duration-1000 delay-500">
-                    <h2 class="text-xl md:text-2xl font-medium text-slate-400 mt-4">Desenvolvedor Frontend</h2>
-                    
-                    <div class="mt-8 flex gap-4">
-                        <a href="https://github.com/PimentInacio" target="_blank" class="text-slate-300 hover:text-sky-400 transition-colors" aria-label="GitHub">
-                            <i data-lucide="github" class="w-7 h-7"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/inacio-pimenta/" target="_blank" class="text-slate-300 hover:text-sky-400 transition-colors" aria-label="LinkedIn">
-                            <i data-lucide="linkedin" class="w-7 h-7"></i>
-                        </a>
-                    </div>
-    
-                    <div class="mt-10 flex flex-wrap gap-4">
-                        <a href="./Currículo Inácio Pimenta.pdf" download="Currículo Inácio Pimenta.pdf" class="bg-sky-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-sky-600 transition-all duration-300 transform hover:scale-105">
-                            Download CV
-                        </a>
-                        <button id="open-contact-modal" class="border border-slate-500 text-slate-200 font-semibold py-3 px-8 rounded-lg hover:bg-slate-700 hover:border-slate-600 transition-all duration-300 transform hover:scale-105">
-                            Entrar em Contato
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção Sobre -->
-        <section id="sobre" class="py-24 reveal">
-            <h2 class="text-4xl font-bold text-center mb-4 text-slate-100">Sobre Mim</h2>
-            <div class="w-20 h-1 bg-sky-500 mx-auto mb-12"></div>
-            
-            <!-- Container responsivo com layout de duas colunas em telas maiores -->
-            <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-                
-                <!-- Coluna da Esquerda: Texto Sobre Mim -->
-                <div class="lg:w-2/3">
-                     <p class="text-lg text-slate-300 leading-relaxed text-center lg:text-left">
-                        Sou um desenvolvedor apaixonado por transformar ideias em interfaces interativas e eficientes. Cursando <span class="text-sky-400 font-medium">Ciências Exatas</span> e <span class="text-sky-400 font-medium">Análise e Desenvolvimento de Sistemas</span>, busco constantemente novos desafios para aprimorar minhas habilidades e construir experiências digitais incríveis.
-                    </p>
-                </div>
-        
-                <!-- Coluna da Direita: Foto e Formação -->
-                <div class="lg:w-1/3 w-full max-w-sm flex flex-col items-center">
-                    <div class="w-full max-w-[250px] mx-auto p-1 photo-gradient-border rounded-full mb-8">
-                        <img src="foto-perfil.png" alt="Foto de perfil de Inácio Pimenta" class="rounded-full w-full h-auto">
-                    </div>
-                     <div class="w-full">
-                        <h3 class="text-2xl font-semibold text-slate-100 mb-6 text-center">Formação Acadêmica</h3>
-                        <div class="space-y-4">
-                            <div class="glass-effect p-4 rounded-lg">
-                                <h4 class="font-bold text-sky-300">Análise e Desenvolvimento de Sistemas (Cursando)</h4>
-                                <p class="text-sm text-slate-400">Centro Universitário Internacional (Uninter)</p>
-                                <p class="text-sm text-slate-500">Previsão: 12/2027</p>
-                            </div>
-                            <div class="glass-effect p-4 rounded-lg">
-                                <h4 class="font-bold text-sky-300">Bacharelado em Ciências Exatas (Cursando)</h4>
-                                <p class="text-sm text-slate-400">Universidade Federal de Juiz de Fora (UFJF)</p>
-                                <p class="text-sm text-slate-500">Previsão: 12/2025</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-
-        <!-- Seção Habilidades -->
-        <section id="habilidades" class="py-24 reveal">
-            <h2 class="text-4xl font-bold text-center mb-4 text-slate-100">Habilidades</h2>
-            <div class="w-20 h-1 bg-sky-500 mx-auto mb-12"></div>
-            <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-8 gap-y-12 text-center justify-items-center">
-                
-                <div class="skill-icon flex flex-col items-center gap-2">
-                    <svg class="w-14 h-14" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Python</title><path d="M12.33.243l-.11-.03-5.91 2.08-2.08 5.89-.03.11.03.11 2.08 5.89 5.89 2.08.11.03.11-.03 5.89-2.08 2.08-5.89.03-.11-.03-.11-2.08-5.89-5.89-2.08zm-1.22 3.6h2.24l.33 2.22h-4.9v-2.1l2.33-.12zm-2.42 6.03h2.15v2.21h.11l2.3-2.21h2.21l-2.45 2.24 2.67 2.67h-2.27l-1.57-1.63-1.07 1.04v.59h-2.15V9.873zm-2.18-4.25h2.15v2.12h-2.15V5.623zm8.99 4.25v2.12h2.15V9.873h-2.15z" fill="#3776AB"/><path d="M12.33.243l-.11-.03-5.91 2.08-2.08 5.89-.03.11.03.11 2.08 5.89 5.89 2.08.11.03.11-.03 5.89-2.08 2.08-5.89.03-.11-.03-.11-2.08-5.89-5.89-2.08zm-1.22 3.6h2.24l.33 2.22h-4.9v-2.1l2.33-.12zm-2.42 6.03h2.15v2.21h.11l2.3-2.21h2.21l-2.45 2.24 2.67 2.67h-2.27l-1.57-1.63-1.07 1.04v.59h-2.15V9.873zm-2.18-4.25h2.15v2.12h-2.15V5.623zm8.99 4.25v2.12h2.15V9.873h-2.15z" fill="#FFD43B"/></svg>
-                    <span class="text-sm text-slate-300">Python</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                    <svg class="w-14 h-14" xmlns="http://www.w3.org/2000/svg" viewBox="-11.5 -10.23174 23 20.46348"><title>React</title><circle cx="0" cy="0" r="2.05" fill="#61dafb"/><g stroke="#61dafb" stroke-width="1" fill="none"><ellipse rx="11" ry="4.2"/><ellipse rx="11" ry="4.2" transform="rotate(60)"/><ellipse rx="11" ry="4.2" transform="rotate(120)"/></g></svg>
-                    <span class="text-sm text-slate-300">React</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                     <svg class="w-14 h-14" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>JavaScript</title><path d="M0 0h24v24H0V0z" fill="#F7DF1E"/><path d="M12.33 6.64v8.94c0 1.95-1.08 2.88-2.97 2.88-1.53 0-2.34-.6-2.88-1.44l1.53-1.08c.36.63.81.99 1.35.99.63 0 1.08-.45 1.08-1.53V6.64h2.4zm5.4 9.54c-1.53 0-2.61-.81-3.06-1.89l1.62-.9c.27.72.9.1.53 1.17.63 0 1.08-.45 1.08-1.26V9.43c0-1.17-.72-1.62-1.8-1.62-.9 0-1.44.36-1.89.99l-1.44-.99c.54-.99 1.62-1.53 3.33-1.53 2.34 0 3.69 1.26 3.69 3.42v5.58h-2.37z"/></svg>
-                    <span class="text-sm text-slate-300">JavaScript</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                    <svg class="w-14 h-14" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>CSS3</title><path d="M1.5 0 h21 l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0z" fill="#1572B6"/><path d="M12 21.455l6.918-1.965L20.25 2h-8.25v19.455z" fill="#33A9DC"/><path d="M12 6.75H8.625l-.21-2.362H12V6.75zm0 10.125l-.022.006-2.88-.777-.187-2.1h-2.362l.33 3.75L12 19.875v-3.003zm0-5.362H8.203l-.21-2.363H12v2.363zm0 0h3.797l-.21 2.363h-3.587v-2.363z" fill="#FFFFFF"/></svg>
-                    <span class="text-sm text-slate-300">CSS3</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                     <svg class="w-14 h-14" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>HTML5</title><path d="M1.5 0 h21 l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0z" fill="#E34F26"/><path d="M12 21.455l6.918-1.965L20.25 2h-8.25v19.455z" fill="#F16529"/><path d="M12 6.75H8.625l-.21-2.362H12V6.75zm0 10.125l-.022.006-2.88-.777-.187-2.1h-2.362l.33 3.75L12 19.875v-3.003zm0-5.362H8.203l-.21-2.363H12v2.363zm0 0h3.797l-.357 4.008h-3.44v2.363h2.333l.21-2.363h-1.458l.357-4.008h2.643l.357-4.008H12v2.363z" fill="#FFFFFF"/></svg>
-                    <span class="text-sm text-slate-300">HTML5</span>
-                </div>
-                 <div class="skill-icon flex flex-col items-center gap-2">
-                    <svg class="w-14 h-14" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>C++</title><path d="M14.19.222l-8.68 5.01-3.45 1.99L5.51 9.21l8.68-5.01 3.45-1.99-3.45-1.99zM12.01 6.322l-8.68 5.01-1.15.67 1.15.66 8.68 5.01 8.68-5.01 1.15-.66-1.15-.67-8.68-5.01zm-1.72 1.01l8.68 5.01v3.98l-8.68-5.01v-3.98zm11.85-.01v3.98l-3.45 1.99v-3.98l3.45-1.99zm-5.17 6.01h1.72v1.72h-1.72v1.73h-1.72v-1.73h-1.72v-1.72h1.72v-1.72h1.72v1.72zm5.17 0h1.72v1.72h-1.72v1.73h-1.72v-1.73h-1.72v-1.72h1.72v-1.72h1.72v1.72z" fill="#00599C"/></svg>
-                    <span class="text-sm text-slate-300">C++</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                    <svg class="w-14 h-14" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Git</title><path d="M23.363 10.217a1.492 1.492 0 00-1.572-1.325L18.66 9.2a3.542 3.542 0 00-2.12-.767l.25-1.802a.804.804 0 00-.787-.878l-3.23.443a.804.804 0 00-.695.83l-.25 1.802a3.542 3.542 0 00-2.12.767l-3.13-.31a1.492 1.492 0 10-.21 2.978l3.13.31a3.542 3.542 0 000 5.483l-3.13.31a1.492 1.492 0 10.21 2.978l3.13-.31a3.542 3.542 0 002.12.767l.25 1.802a.804.804 0 00.787.878l3.23-.443a.804.804 0 00.695-.83l.25-1.802a3.542 3.542 0 002.12-.767l3.13.31a1.492 1.492 0 10.21-2.978l-3.13-.31a3.542 3.542 0 000-5.483l3.13-.31a1.492 1.492 0 001.362-1.653zm-9.35 6.222a2.193 2.193 0 110-4.386 2.193 2.193 0 010 4.386z" fill="#F05032"/></svg>
-                    <span class="text-sm text-slate-300">Git</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                     <svg class="w-14 h-14 text-white" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor"/></svg>
-                    <span class="text-sm text-slate-300">GitHub</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                    <svg class="w-14 h-14" role="img" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Figma</title>
-                        <path fill="#F24E1E" d="M12 24a6 6 0 01-6-6V12a6 6 0 1112 0v6a6 6 0 01-6 6z"></path>
-                        <path fill="#FF7262" d="M6 12a6 6 0 016-6h0a6 6 0 016 6v0a6 6 0 01-6 6h0a6 6 0 01-6-6z"></path>
-                        <path fill="#A259FF" d="M6 6a6 6 0 016-6h0a6 6 0 110 12h0a6 6 0 01-6-6z"></path>
-                        <path fill="#1ABCFE" d="M12 6a6 6 0 016 6h0a6 6 0 11-12 0h0a6 6 0 016-6z"></path>
-                        <path fill="#0ACF83" d="M18 12a6 6 0 01-6 6h0a6 6 0 110-12h0a6 6 0 016 6z"></path>
-                    </svg>
-                    <span class="text-sm text-slate-300">Figma</span>
-                </div>
-                <div class="skill-icon flex flex-col items-center gap-2">
-                    <svg class="w-14 h-14" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Microsoft Excel</title><path d="M22.5 0H1.5A1.5 1.5 0 000 1.5v21A1.5 1.5 0 001.5 24h14a1.5 1.5 0 001.5-1.5V16h5.5a1.5 1.5 0 001.5-1.5V1.5A1.5 1.5 0 0022.5 0zM15 22.5H1.5a.75.75 0 01-.75-.75V1.5A.75.75 0 011.5 0h12v15H1.5a.75.75 0 00-.75.75v6a.75.75 0 00.75.75h14.25v-.75zm7.5-8.25h-5.25V1.5h4.5a.75.75 0 01.75.75v11.25a.75.75 0 01-.75.75h-.75zM8.868 9.383l-2.02 3.498-2.01-3.498H2.43l3.21 5.394-3.32 5.223h2.43l2.12-3.837 2.12 3.837h2.43L8.02 14.777l3.21-5.394z" fill="#1D6C46"/></svg>
-                    <span class="text-sm text-slate-300">Excel</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção Projetos -->
-        <section id="projetos" class="py-24 reveal">
-            <h2 class="text-4xl font-bold text-center mb-4 text-slate-100">Projetos</h2>
-            <div class="w-20 h-1 bg-sky-500 mx-auto mb-12"></div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                <div class="project-card glass-effect rounded-lg overflow-hidden flex flex-col transition-transform transform hover:-translate-y-2 duration-300 cursor-pointer"
-                    data-title="Student Allocation System"
-                    data-description="Um sistema web desenvolvido para otimizar a distribuição de alunos em salas de prova, utilizando Programação Linear para garantir uma alocação eficiente e justa. O projeto resolve um problema complexo de logística acadêmica com uma solução tecnológica robusta."
-                    data-tech="Python,JavaScript,HTML,CSS,GLPK"
-                    data-github="https://github.com/PimentInacio/student-allocation"
-                    data-live="">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl text-slate-100 mb-2">Student Allocation System</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Sistema web para distribuição otimizada de alunos em provas, utilizando Programação Linear para uma alocação eficiente.
-                        </p>
-                    </div>
-                    <div class="p-6 bg-slate-900/50 text-xs text-slate-400 flex flex-wrap gap-2 mt-auto">
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">Python</span>
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">JavaScript</span>
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">GLPK</span>
-                    </div>
-                </div>
-
-                <div class="project-card glass-effect rounded-lg overflow-hidden flex flex-col transition-transform transform hover:-translate-y-2 duration-300 cursor-pointer"
-                    data-title="ClickCocho (Extensão UFJF)"
-                    data-description="Neste projeto de extensão da UFJF, o desafio foi aplicar visão computacional para analisar o cocho e automatizar o manejo. Atuei no desenvolvimento da interface do aplicativo que exibe os dados e permite a interação do usuário."
-                    data-tech="React Native,JavaScript,Expo"
-                    data-github=""
-                    data-live="">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl text-slate-100 mb-2">ClickCocho (Extensão UFJF)</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            Aplicativo para otimizar o manejo de cocho de bovinos utilizando visão computacional, com foco em uma interface de usuário responsiva e intuitiva para o campo.
-                        </p>
-                    </div>
-                    <div class="p-6 bg-slate-900/50 text-xs text-slate-400 flex flex-wrap gap-2 mt-auto">
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">React Native</span>
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">Expo</span>
-                    </div>
-                </div>
-
-                <div class="project-card glass-effect rounded-lg overflow-hidden flex flex-col transition-transform transform hover:-translate-y-2 duration-300 cursor-pointer"
-                    data-title="PiattoBurger Website"
-                    data-description="Realizei o ciclo completo de desenvolvimento para este projeto, desde a prototipagem da interface no Figma até a codificação final. Atendi às necessidades do cliente criando um hub de links responsivo e implementei o Google Analytics via JavaScript para o acompanhamento de métricas de acesso."
-                    data-tech="Figma,HTML,CSS,Google Analytics"
-                    data-github=""
-                    data-live="https://piatto-burger.vercel.app/">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl text-slate-100 mb-2">PiattoBurger Website</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                           Projeto de ponta a ponta: da prototipagem no Figma ao desenvolvimento e implementação de Google Analytics para o cliente.
-                        </p>
-                    </div>
-                    <div class="p-6 bg-slate-900/50 text-xs text-slate-400 flex flex-wrap gap-2 mt-auto">
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">Figma</span>
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">HTML</span>
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">CSS</span>
-                        <span class="bg-sky-900/50 text-sky-300 py-1 px-2 rounded">Analytics</span>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Seção Contato -->
-        <section id="contato" class="py-24 text-center reveal">
-            <h2 class="text-4xl font-bold text-center mb-4 text-slate-100">Vamos Conversar?</h2>
-            <div class="w-20 h-1 bg-sky-500 mx-auto mb-12"></div>
-            <div class="max-w-md mx-auto flex flex-col gap-6">
-
-                 <div class="glass-effect rounded-lg flex items-center p-4 transition-transform transform hover:scale-105 duration-300">
-                    <div class="flex-shrink-0 w-12 h-12 bg-slate-700/50 rounded-md flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-400"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                    </div>
-                    <div class="ml-4 text-left">
-                        <h3 class="font-semibold text-slate-200">Email</h3>
-                        <p class="text-slate-400 text-sm">inacio2maio@gmail.com</p>
-                    </div>
-                </div>
-
-                 <div class="glass-effect rounded-lg flex items-center p-4 transition-transform transform hover:scale-105 duration-300">
-                    <div class="flex-shrink-0 w-12 h-12 bg-slate-700/50 rounded-md flex items-center justify-center">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-400"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    </div>
-                    <div class="ml-4 text-left">
-                        <h3 class="font-semibold text-slate-200">Telefone</h3>
-                        <p class="text-slate-400 text-sm">(32) 99817-9372</p>
-                    </div>
-                </div>
-
-                 <div class="glass-effect rounded-lg flex items-center p-4 transition-transform transform hover:scale-105 duration-300">
-                    <div class="flex-shrink-0 w-12 h-12 bg-slate-700/50 rounded-md flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-400"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                    </div>
-                    <div class="ml-4 text-left">
-                        <h3 class="font-semibold text-slate-200">LinkedIn</h3>
-                        <a href="https://www.linkedin.com/in/inacio-pimenta/" target="_blank" class="text-slate-400 text-sm hover:text-sky-400 transition-colors">in/inacio-pimenta</a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 mt-20">
-        <div class="container mx-auto px-6 py-6 text-center text-slate-500">
-            <p>&copy; 2025 Inácio da Silva Mota Pimenta</p>
-        </div>
-    </footer>
-    
-    <!-- Modal de Contato -->
-    <div id="contact-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content glass-effect rounded-lg w-full max-w-md p-8 transform scale-95 opacity-0">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-slate-100">Informações de Contato</h3>
-                <button id="close-contact-modal" class="text-slate-400 hover:text-white">&times;</button>
-            </div>
-            <div class="space-y-4">
-                 <div class="flex items-center gap-4">
-                    <i data-lucide="mail" class="w-6 h-6 text-sky-400"></i>
-                    <div>
-                        <h4 class="font-semibold">Email</h4>
-                        <p class="text-slate-300">inacio21maio@gmail.com</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <i data-lucide="phone" class="w-6 h-6 text-sky-400"></i>
-                    <div>
-                        <h4 class="font-semibold">Telefone</h4>
-                        <p class="text-slate-300">(32) 99817-9372</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <i data-lucide="linkedin" class="w-6 h-6 text-sky-400"></i>
-                    <div>
-                        <h4 class="font-semibold">LinkedIn</h4>
-                        <a href="https://www.linkedin.com/in/inacio-pimenta/" target="_blank" class="text-slate-300 hover:text-sky-400 transition-colors">linkedin.com/in/inacio-pimenta</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal de Projeto -->
-    <div id="project-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content glass-effect rounded-lg w-full max-w-2xl p-8 transform scale-95 opacity-0">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="project-modal-title" class="text-2xl font-bold text-slate-100"></h3>
-                <button id="close-project-modal" class="text-slate-400 hover:text-white text-4xl leading-none">&times;</button>
-            </div>
-            <p id="project-modal-description" class="text-slate-300 mb-6"></p>
-            <div class="mb-6">
-                <h4 class="font-semibold text-slate-100 mb-2">Tecnologias:</h4>
-                <div id="project-modal-tech" class="flex flex-wrap gap-2"></div>
-            </div>
-            <div id="project-modal-links" class="flex flex-wrap gap-4"></div>
-        </div>
-    </div>
-
-    <script>
-        function initLucideIcons() {
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            } else {
-                console.warn('Lucide icons library not ready yet.');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            // Função segura para inicializar ícones
-            function checkAndInitLucide() {
-                if (typeof lucide !== 'undefined') {
-                    initLucideIcons();
-                } else {
-                    setTimeout(checkAndInitLucide, 100);
-                }
-            }
-            checkAndInitLucide();
-
-            // Animação de digitação
-            function typeWriter(elementId, text, speed) {
-                const element = document.getElementById(elementId);
-                if (!element) return;
-                let i = 0;
-                element.innerHTML = '';
-                
-                const textNode = document.createTextNode('');
-                element.appendChild(textNode);
-
-                const cursor = document.createElement('span');
-                cursor.className = 'blinking-cursor';
-                cursor.innerHTML = '|';
-                element.appendChild(cursor);
-
-                function type() {
-                    if (i < text.length) {
-                        const char = text.charAt(i);
-                        textNode.nodeValue += char;
-                        i++;
-                        const currentSpeed = (char === ' ') ? speed / 4 : speed;
-                        setTimeout(type, currentSpeed);
-                    } else {
-                        setTimeout(() => {
-                           if(cursor) cursor.style.display = 'none';
-                           const contentToReveal = document.getElementById('reveal-after-typing');
-                           if (contentToReveal) {
-                               contentToReveal.classList.remove('opacity-0');
-                           }
-                        }, 500); 
-                    }
-                }
-                type();
-            }
-            typeWriter('typing-name', 'Inácio da Silva Mota Pimenta', 160);
-
-            // Menu Mobile
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Animação de revelação ao rolar
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-            // Navegação ativa
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('nav a');
-
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 60) {
-                        current = section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(a => {
-                    a.classList.remove('active-link');
-                    if (a.getAttribute('href').includes(current)) {
-                        a.classList.add('active-link');
-                    }
-                });
-            });
-
-            // Modal de Contato
-            const contactModal = document.getElementById('contact-modal');
-            const openContactModalButton = document.getElementById('open-contact-modal');
-            const closeContactModalButton = document.getElementById('close-contact-modal');
-
-            function openContactModal() {
-                contactModal.classList.remove('opacity-0', 'pointer-events-none');
-                contactModal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
-            }
-            function closeContactModal() {
-                contactModal.classList.add('opacity-0', 'pointer-events-none');
-                contactModal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
-            }
-            openContactModalButton.addEventListener('click', openContactModal);
-            closeContactModalButton.addEventListener('click', closeContactModal);
-            
-            // Modal de Projetos
-            const projectModal = document.getElementById('project-modal');
-            const projectCards = document.querySelectorAll('.project-card');
-            const closeProjectModalButton = document.getElementById('close-project-modal');
-            
-            function openProjectModal() {
-                projectModal.classList.remove('opacity-0', 'pointer-events-none');
-                projectModal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
-            }
-            function closeProjectModal() {
-                projectModal.classList.add('opacity-0', 'pointer-events-none');
-                projectModal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
-            }
-
-            projectCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const data = card.dataset;
-                    document.getElementById('project-modal-title').innerText = data.title;
-                    document.getElementById('project-modal-description').innerText = data.description;
-                    
-                    const techContainer = document.getElementById('project-modal-tech');
-                    techContainer.innerHTML = '';
-                    data.tech.split(',').forEach(tech => {
-                        techContainer.innerHTML += `<span class="bg-sky-900/50 text-sky-300 py-1 px-3 rounded-md text-sm">${tech}</span>`;
-                    });
-
-                    const linksContainer = document.getElementById('project-modal-links');
-                    linksContainer.innerHTML = '';
-                    if (data.github) {
-                        linksContainer.innerHTML += `
-                            <a href="${data.github}" target="_blank" class="border border-slate-500 text-slate-200 font-semibold py-2 px-6 rounded-lg hover:bg-slate-700 transition-all duration-300 inline-flex items-center gap-2">
-                               <i data-lucide="github" class="w-4 h-4"></i> GitHub
-                            </a>`;
-                    }
-                    if (data.live) {
-                        linksContainer.innerHTML += `
-                            <a href="${data.live}" target="_blank" class="bg-sky-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-sky-600 transition-all duration-300 inline-flex items-center gap-2">
-                               <i data-lucide="external-link" class="w-4 h-4"></i> Ver Site
-                            </a>`;
-                    }
-                    
-                    initLucideIcons();
-                    openProjectModal();
-                });
-            });
-
-            closeProjectModalButton.addEventListener('click', closeProjectModal);
-            
-            // Fechar modais ao clicar fora
-            window.addEventListener('click', (e) => {
-                if (e.target === contactModal) {
-                    closeContactModal();
-                }
-                if (e.target === projectModal) {
-                    closeProjectModal();
-                }
-            });
-        });
-    </script>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
-
