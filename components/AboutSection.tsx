@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useOnScreen } from '../hooks/useOnScreen';
+import profilePhoto from '../images/foto.jpeg';
 
 export const AboutSection = () => {
     const sectionRef = useRef<HTMLDivElement>(null);
@@ -24,7 +25,7 @@ export const AboutSection = () => {
         
                 <div className="lg:w-1/3 w-full max-w-sm flex flex-col items-center">
                     <div className="w-full max-w-[250px] mx-auto p-1 photo-gradient-border rounded-full mb-8">
-                        <img src="./images/foto.jpeg" alt="Foto de perfil de Inácio Pimenta" className="rounded-full w-full h-auto" />
+                        <img src={profilePhoto} alt="Foto de perfil de Inácio Pimenta" className="rounded-full w-full h-auto" />
                     </div>
                      <div className="w-full">
                         <h3 className="text-2xl font-semibold text-slate-100 mb-6 text-center">Formação Acadêmica</h3>
