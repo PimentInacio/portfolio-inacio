@@ -1,15 +1,15 @@
 import type { Project, Skill } from './types';
 
-import jsIcon from './src/images/javascript.png';
-import pythonIcon from './src/images/python.png';
-import cppIcon from './src/images/cpp.png';
-import htmlIcon from './src/images/html5.png';
-import cssIcon from './src/images/css3.png';
-import reactIcon from './src/images/react.png';
-import gitIcon from './src/images/git.png';
-import githubIcon from './src/images/github.png';
-import figmaIcon from './src/images/figma.png';
-import excelIcon from './src/images/excel.png';
+import jsIcon from './images/javascript.png';
+import pythonIcon from './images/python.png';
+import cppIcon from './images/cpp.png';
+import htmlIcon from './images/html5.png';
+import cssIcon from './images/css3.png';
+import reactIcon from './images/react.png';
+import gitIcon from './images/git.png';
+import githubIcon from './images/github.png';
+import figmaIcon from './images/figma.png';
+import excelIcon from './images/excel.png';
 
 export const NAV_LINKS = [
   { href: '#sobre', label: 'Sobre' },
