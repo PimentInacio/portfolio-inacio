@@ -1,5 +1,16 @@
 import type { Project, Skill } from './types';
 
+import jsIcon from './src/images/javascript.png';
+import pythonIcon from './src/images/python.png';
+import cppIcon from './src/images/cpp.png';
+import htmlIcon from './src/images/html5.png';
+import cssIcon from './src/images/css3.png';
+import reactIcon from './src/images/react.png';
+import gitIcon from './src/images/git.png';
+import githubIcon from './src/images/github.png';
+import figmaIcon from './src/images/figma.png';
+import excelIcon from './src/images/excel.png';
+
 export const NAV_LINKS = [
   { href: '#sobre', label: 'Sobre' },
   { href: '#habilidades', label: 'Habilidades' },
@@ -34,26 +45,26 @@ export const SKILL_CATEGORIES: { title: string; skills: Skill[] }[] = [
     {
         title: "Linguagens",
         skills: [
-            { name: "JavaScript", icon: './images/javascript.png' },
-            { name: "Python", icon: './images/python.png' },
-            { name: "C++", icon: './images/cpp.png' },
+            { name: "JavaScript", icon: jsIcon },
+            { name: "Python", icon: pythonIcon },
+            { name: "C++", icon: cppIcon },
         ],
     },
     {
         title: "Desenvolvimento Web",
         skills: [
-            { name: "HTML5", icon: './images/html5.png' },
-            { name: "CSS3", icon: './images/css3.png' },
-            { name: "React", icon: './images/react.png' },
+            { name: "HTML5", icon: htmlIcon },
+            { name: "CSS3", icon: cssIcon },
+            { name: "React", icon: reactIcon },
         ],
     },
     {
         title: "Ferramentas e Tecnologias",
         skills: [
-            { name: "Git", icon: './images/git.png' },
-            { name: "GitHub", icon: './images/github.png' },
-            { name: "Figma", icon: './images/figma.png' },
-            { name: "Excel", icon: './images/excel.png' },
+            { name: "Git", icon: gitIcon },
+            { name: "GitHub", icon: githubIcon },
+            { name: "Figma", icon: figmaIcon },
+            { name: "Excel", icon: excelIcon },
         ],
     },
 ];
