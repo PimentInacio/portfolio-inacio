@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin } from 'lucide-react';
+import curriculoPDF from '../images/curriculo.pdf';
 
 interface HomeSectionProps {
     onContactClick: () => void;
@@ -45,7 +46,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onContactClick }) => {
                     </div>
     
                     <div className="mt-10 flex flex-wrap gap-4">
-                        <a href="./images/curriculo.pdf" download="Currículo Inácio Pimenta.pdf" className="bg-sky-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-sky-600 transition-all duration-300 transform hover:scale-105">
+                        <a href={curriculoPDF} download="Currículo Inácio Pimenta.pdf" className="bg-sky-500 text-white font-semibold py-3 px-8 rounded-lg hover:bg-sky-600 transition-all duration-300 transform hover:scale-105">
                             Download CV
                         </a>
                         <button onClick={onContactClick} className="border border-slate-500 text-slate-200 font-semibold py-3 px-8 rounded-lg hover:bg-slate-700 hover:border-slate-600 transition-all duration-300 transform hover:scale-105">
